@@ -59,8 +59,8 @@ def sendEmail(to, content):
        
 if __name__ == "__main__":
     greetMe()
-    #while True:
-    if 1:
+    while True:
+    #if 1:
         query = takeCommand().lower()
         
         if 'wikipedia' in query:
@@ -71,6 +71,8 @@ if __name__ == "__main__":
             speak(results)
         elif 'open youtube' in query:
             wb.open("youtube.com")
+        elif 'who are you or what is your name' in query:
+            speak("I am Solis personal AI assistance")
         elif 'open google' in query:
             wb.open("google.com")
         elif 'open chat gpt' in query:
