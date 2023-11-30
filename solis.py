@@ -1,15 +1,15 @@
 import pyttsx3 as p
-#import speechRecognition as sr
+import speech_recognition as sr
 import datetime as dt
 
 engine = p.init('espeak')
 
 voices = engine.getProperty('voices')
 rate = engine.getProperty('rate')
-#print(voices[16].id)
+#print(voices[9].id)
 #print(rate)
 
-engine.setProperty('voice', voices[29].id) # change voice name
+engine.setProperty('voice', voices[9].id) # change voice name
 engine.setProperty('rate', 180) # set the speech speed
 
 def speak(audio):
@@ -24,10 +24,27 @@ def greetMe():
         speak("Good Afternoon!")
     else:
         speak("Good Evening!")
-    speak("I am Solis. How may i help you Thuso?")
+    speak("I am Solis. How may i help you sir?")
  
 def takeCommand():
-    speak("")
+    # create an instance
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening...")
+        r.pause_threshold = 1
+        audio = r.listen(source)
+    try:
+        print("Running...")
+        query = r.recognize_google(audio, language='en-US')
+        print(f"User said: {query}\n")
+    
+    except Exception as e:
+        #print(e)
+        print("I don't understand")
+        return "None"
+    return query
         
 if __name__ == "__main__":
     greetMe()
+    while True:
+        query = takeCommand().lower()
