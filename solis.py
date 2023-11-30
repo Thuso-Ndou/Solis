@@ -1,5 +1,6 @@
 import pyttsx3 as p
 import speech_recognition as sr
+import wikipedia as wp
 import datetime as dt
 
 engine = p.init('espeak')
@@ -24,12 +25,14 @@ def greetMe():
         speak("Good Afternoon!")
     else:
         speak("Good Evening!")
-    speak("I am Solis. How may i help you sir?")
+    speak("I am Solis ,And i will be your voice assistance. How may i help you?")
  
 def takeCommand():
     # create an instance
     r = sr.Recognizer()
     with sr.Microphone() as source:
+        r.energy_threshold = 10000 # take low sound
+        r.adjust_for_ambient_noise(source,2.1) # listening to our voice
         print("Listening...")
         r.pause_threshold = 1
         audio = r.listen(source)
@@ -48,3 +51,10 @@ if __name__ == "__main__":
     greetMe()
     while True:
         query = takeCommand().lower()
+        
+        if 'wikipedia' in query:
+            speak("Searching wikipedia...")
+            query = query.replace("wikipedia", "")
+            results = wp.summary(query, sentences=2)
+            speak("According to wikipedia")
+            speak(results)
