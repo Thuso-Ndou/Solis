@@ -2,6 +2,8 @@ import pyttsx3 as p
 import speech_recognition as sr
 import wikipedia as wp
 import webbrowser as wb
+import os
+import smtplib
 import datetime as dt
 
 engine = p.init('espeak')
@@ -47,10 +49,18 @@ def takeCommand():
         print("I don't understand")
         return "None"
     return query
-        
+def sendEmail(to, content):
+      server = smtplib.SMTP('smtp.gmail.com', 587)
+      server.ehlo()
+      server.starttls()
+      server.login('myemail@gmail.com', 'mypassword')
+      server.sendmail('myemail@gmail.com', to, content)
+      server.close()
+       
 if __name__ == "__main__":
     greetMe()
-    while True:
+    #while True:
+    if 1:
         query = takeCommand().lower()
         
         if 'wikipedia' in query:
@@ -65,3 +75,25 @@ if __name__ == "__main__":
             wb.open("google.com")
         elif 'open chat gpt' in query:
             wb.open("chat.openai.com")
+        elif 'play music' in query:
+            music_dir = 'd:\\Non Critical\\songs\\Favorite Songs2'
+            songs = os.listdir(music_dir)
+            print(songs)
+            os.startfile(os.path.join(music_dir, songs[0]))
+        elif 'the time' in query:
+            strTime = dt.datetime.now().strftime("%H:%M:%S")
+            speak(f"The time is {strTime}")
+        elif 'open code' in query:
+            #codePath = ""
+            os.startfile(Code.exe)
+        elif 'send email' in query:
+            try:
+                speak("What should i send")
+                content = takeCommand()
+                to = "example@gmail.com"
+                sendEmail(to, content)
+                speak("Email has been sent")
+                
+            except Exception as ex:
+                print(ex)
+                speak("I am unable to send the email")
