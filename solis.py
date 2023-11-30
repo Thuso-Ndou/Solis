@@ -1,6 +1,7 @@
 import pyttsx3 as p
 import speech_recognition as sr
 import wikipedia as wp
+import webbrowser as wb
 import datetime as dt
 
 engine = p.init('espeak')
@@ -58,3 +59,9 @@ if __name__ == "__main__":
             results = wp.summary(query, sentences=2)
             speak("According to wikipedia")
             speak(results)
+        elif 'open youtube' in query:
+            wb.open("youtube.com")
+        elif 'open google' in query:
+            wb.open("google.com")
+        elif 'open chat gpt' in query:
+            wb.open("chat.openai.com")
